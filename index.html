@@ -6,8 +6,8 @@
     <title>Kameron's Portfolio Site 2.0</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
             color: #333;
             margin: 0;
             padding: 0;
@@ -16,43 +16,80 @@
             align-items: center;
         }
         header {
-            background-color: #0000EE;
+            background-color: #007ACC;
             color: white;
             padding: 20px;
             text-align: center;
             width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         main {
             padding: 20px;
             width: 80%;
-            max-width: 800px;
+            max-width: 1000px;
             background-color: white;
             margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         h1 {
             margin-top: 0;
+            font-size: 2.5em;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
         }
-        li {
-            margin: 10px 0;
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
         }
-        a {
+        .slide {
+            display: none;
+            text-align: center;
+        }
+        .slide.active {
+            display: block;
+        }
+        .slide a {
+            font-size: 1.5em;
+            color: #007ACC;
             text-decoration: none;
-            color: #0000EE;
+            font-weight: bold;
         }
-        a:hover {
-            text-decoration: underline;
+        .slide p {
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 10px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
         }
         footer {
             margin-top: 20px;
             padding: 10px;
             text-align: center;
             width: 100%;
-            background-color: #0000EE;
+            background-color: #007ACC;
             color: white;
         }
     </style>
@@ -63,20 +100,57 @@
     </header>
     <main>
         <h2>Java Apps</h2>
-        <ul>
-            <li><a href="https://github.com/kamerond1899/PhraseKey" target="_blank">PhraseKey</a></li>
-            <li><a href="https://github.com/kamerond1899/f9-Note" target="_blank">F9Note</a></li>
-            <li><a href="https://github.com/kamerond1899/IST411_COVIDProject_GUI" target="_blank">College COVID 19 Tracker Project</a></li>
-            <li><a href="https://github.com/kamerond1899/Easy-Java-ChatGPT-API" target="_blank">Easy OpenAI API Chatbot Demo</a></li>
-        </ul>
-        <h2>Web Apps(React, Node, Express, BASH, Heroku)</h2>
-        <ul>
-            <li><a href="https://hynote.co" target="_blank">Hynote</a></li>
-            
-        </ul>
+        <div class="slideshow-container">
+            <div class="slide active">
+                <a href="https://github.com/kamerond1899/PhraseKey" target="_blank">PhraseKey</a>
+                <p>A powerful tool for generating secure and memorable passphrases.</p>
+            </div>
+            <div class="slide">
+                <a href="https://github.com/kamerond1899/f9-Note" target="_blank">F9Note</a>
+                <p>A lightweight note-taking app built with Java Swing.</p>
+            </div>
+            <div class="slide">
+                <a href="https://github.com/kamerond1899/IST411_COVIDProject_GUI" target="_blank">College COVID 19 Tracker Project</a>
+                <p>A project to track COVID-19 cases on college campuses.</p>
+            </div>
+            <div class="slide">
+                <a href="https://github.com/kamerond1899/Easy-Java-ChatGPT-API" target="_blank">Easy OpenAI API Chatbot Demo</a>
+                <p>A simple demo of a chatbot using the OpenAI API.</p>
+            </div>
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        </div>
     </main>
     <footer>
         <p>&copy; 2024 Kameron Dangleben</p>
     </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+            showSlide(currentSlide);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+        });
+    </script>
 </body>
 </html>
