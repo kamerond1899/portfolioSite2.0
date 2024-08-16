@@ -40,23 +40,49 @@
             font-size: 1.8em;
             margin-bottom: 10px;
         }
+        p.description {
+            text-align: center;
+            font-weight: normal;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.5em;
+        }
         .slideshow-container {
             position: relative;
             max-width: 100%;
             margin: auto;
+            overflow: hidden;
         }
         .slide {
-            display: none;
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
             text-align: center;
         }
         .slide.active {
-            display: block;
+            opacity: 1;
+            position: relative;
+        }
+        .slide img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .slide img.hynote-image {
+            width: 800px;
+            height: 400px;
+            object-fit: cover;
         }
         .slide a {
             font-size: 1.5em;
             color: #007ACC;
             text-decoration: none;
             font-weight: bold;
+            display: block;
         }
         .slide p {
             font-size: 1em;
@@ -96,45 +122,80 @@
 </head>
 <body>
     <header>
-        <h1>Kameron's Portfolio</h1>
+        <h1>Kameron Dangleben</h1>
     </header>
     <main>
+        <p class="description">
+            My name is Kameron Dangleben, a creative, self-motivated developer looking to offer useful small-scale solutions to big problems. 
+            Every time there is an issue I encounter on the computer, I try and solve it with my own solutions. 
+            I have spent thousands of hours troubleshooting, testing, and writing original code for the last couple of years 
+            in order to sharpen my skills and hopefully one day share my useful software with the world. 
+            Thank you for visiting my website.
+        </p>
         <h2>Java Apps</h2>
-        <div class="slideshow-container">
+        <div class="slideshow-container" id="java-slideshow">
             <div class="slide active">
-                <a href="https://github.com/kamerond1899/PhraseKey" target="_blank">PhraseKey</a>
-                <p>A powerful tool for generating secure and memorable passphrases.</p>
+                <a href="https://github.com/kamerond1899/PhraseKey" target="_blank">
+                    <img src="img_phrasekey.png" alt="PhraseKey Screenshot">
+                    <p>PhraseKey</p>
+                </a>
+                <p>A powerful tool for applying to jobs by mapping lists of phrases to a single hotkey of user choice.</p>
             </div>
             <div class="slide">
-                <a href="https://github.com/kamerond1899/f9-Note" target="_blank">F9Note</a>
-                <p>A lightweight note-taking app built with Java Swing.</p>
+                <a href="https://github.com/kamerond1899/f9-Note" target="_blank">
+                    <img src="f9note_img.png" alt="F9Note Screenshot">
+                    <p>F9Note</p>
+                </a>
+                <p>A lightweight note-taking app built with Java Swing. You can create todo lists, spreadsheets, and detailed documents easily!</p>
             </div>
             <div class="slide">
-                <a href="https://github.com/kamerond1899/IST411_COVIDProject_GUI" target="_blank">College COVID 19 Tracker Project</a>
-                <p>A project to track COVID-19 cases on college campuses.</p>
+                <a href="https://github.com/kamerond1899/IST411_COVIDProject_GUI" target="_blank">
+                    <img src="img_basic.png" alt="College COVID 19 Tracker Screenshot">
+                    <p>College COVID 19 Tracker Project</p>
+                </a>
+                <p>A project to track COVID-19 cases in different states and transform the data to show comparative statistics.</p>
             </div>
             <div class="slide">
-                <a href="https://github.com/kamerond1899/Easy-Java-ChatGPT-API" target="_blank">Easy OpenAI API Chatbot Demo</a>
-                <p>A simple demo of a chatbot using the OpenAI API.</p>
+                <a href="https://github.com/kamerond1899/Easy-Java-ChatGPT-API" target="_blank">
+                    <img src="img_chatbot.png" alt="Chatbot Demo Screenshot">
+                    <p>Easy OpenAI API Chatbot Demo</p>
+                </a>
+                <p>A simple demo of a chatbot using the OpenAI API, free to use and repurpose.</p>
             </div>
-            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+            <a class="prev" onclick="changeSlide(-1, 'java')">&#10094;</a>
+            <a class="next" onclick="changeSlide(1, 'java')">&#10095;</a>
         </div>
 
         <h2>Web Apps</h2>
-        <ul>
-            <li><a href="https://hynote.co" target="_blank">Hynote</a> - A web-based collaborative note-taking app.</li>
-        </ul>
+        <div class="slideshow-container" id="web-slideshow">
+            <div class="slide active">
+                <a href="https://hynote.co" target="_blank">
+                    <img class="hynote-image" src="img_hynote.png" alt="Hynote Screenshot">
+                    <p>Hynote</p>
+                </a>
+                <p>A web-based SaaS application designed to automatically take notes and summarize them with only voice input.</p>
+            </div>
+            <!-- Future Web App Slides Go Here -->
+            <a class="prev" onclick="changeSlide(-1, 'web')">&#10094;</a>
+            <a class="next" onclick="changeSlide(1, 'web')">&#10095;</a>
+        </div>
     </main>
     <footer>
         <p>&copy; 2024 Kameron Dangleben</p>
     </footer>
 
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
+        let javaSlideIndex = 0;
+        let webSlideIndex = 0;
+        let javaSlides, webSlides;
+        let javaAutoSlide, webAutoSlide;
 
-        function showSlide(index) {
+        function showSlide(index, type = 'java') {
+            const slideClass = type === 'java' ? '.slideshow-container#java-slideshow .slide' : '.slideshow-container#web-slideshow .slide';
+            const slides = document.querySelectorAll(slideClass);
+            if (type === 'java') javaSlides = slides;
+            else webSlides = slides;
+
             slides.forEach((slide, i) => {
                 slide.classList.remove('active');
                 if (i === index) {
@@ -143,18 +204,33 @@
             });
         }
 
-        function changeSlide(n) {
-            currentSlide += n;
-            if (currentSlide >= slides.length) {
-                currentSlide = 0;
-            } else if (currentSlide < 0) {
-                currentSlide = slides.length - 1;
+        function changeSlide(n, type = 'java') {
+            clearTimeout(type === 'java' ? javaAutoSlide : webAutoSlide); // Stop auto-slide
+
+            if (type === 'java') {
+                javaSlideIndex += n;
+                if (javaSlideIndex >= javaSlides.length) javaSlideIndex = 0;
+                else if (javaSlideIndex < 0) javaSlideIndex = javaSlides.length - 1;
+                showSlide(javaSlideIndex, 'java');
+                javaAutoSlide = setTimeout(() => autoSlide('java'), 5000);
+            } else {
+                webSlideIndex += n;
+                if (webSlideIndex >= webSlides.length) webSlideIndex = 0;
+                else if (webSlideIndex < 0) webSlideIndex = webSlides.length - 1;
+                showSlide(webSlideIndex, 'web');
+                webAutoSlide = setTimeout(() => autoSlide('web'), 5000);
             }
-            showSlide(currentSlide);
+        }
+
+        function autoSlide(type = 'java') {
+            changeSlide(1, type);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            showSlide(currentSlide);
+            showSlide(javaSlideIndex, 'java');
+            showSlide(webSlideIndex, 'web');
+            javaAutoSlide = setTimeout(() => autoSlide('java'), 5000);
+            webAutoSlide = setTimeout(() => autoSlide('web'), 5000);
         });
     </script>
 </body>
